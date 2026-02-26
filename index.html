@@ -24,10 +24,9 @@
         }
 
         .app-container {
-            min-height: fit-content;
+            min-height: 100vh;
             background: linear-gradient(to bottom right, #eff6ff, #e0e7ff);
-            padding:2rem 1rem 3rem 1rem;
-            border-radius: 1rem;
+            padding: 1rem 1rem 1rem 1rem;
         }
 
         .content-wrapper {
@@ -126,6 +125,7 @@
             transition: background-color 0.2s;
         }
 
+
         .yes-button:hover {
             background-color: #15803d;
         }
@@ -145,6 +145,44 @@
         }
 
         .no-button:hover {
+            background-color: #b91c1c;
+        }
+
+
+        .custom-button-1 {
+            min-width: 8rem;
+            padding: 1rem 2rem;
+            background-color: #16a34a;
+            color: white;
+            font-size: 1.125rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+
+        .custom-button-1:hover {
+            background-color: #15803d;
+        }
+
+        .custom-button-2 {
+            min-width: 8rem;
+            padding: 1rem 2rem;
+            background-color: #dc2626;
+            color: white;
+            font-size: 1.125rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .custom-button-2:hover {
             background-color: #b91c1c;
         }
 
@@ -293,6 +331,20 @@
                 </div>
             );
 
+            const renderCustomQuestion = (question, option1Text, option1Action, option2Text, option2Action) => (
+                <div className="space-y-6">
+                    <h2 className="question-title">{question}</h2>
+                    <div className="button-group">
+                        <button onClick={option1Action} className="custom-button-1">
+                            {option1Text}
+                        </button>
+                        <button onClick={option2Action} className="custom-button-2">
+                            {option2Text}
+                        </button>
+                    </div>
+                </div>
+            );
+
             const renderResult = (title, messages, isPositive = false) => (
                 <div className="result-container">
                     <div className={`result-box ${isPositive ? 'positive' : 'normal'}`}>
@@ -312,10 +364,19 @@
                             <div className="start-container">
                                 <h1>STUDENT TAX FLOWCHART</h1>
                                 <div className="icon">📋</div>
-                                <button onClick={() => goToStep('q1')} className="start-button">
+                                <button onClick={() => goToStep('student_type')} className="start-button">
                                     START HERE
                                 </button>
                             </div>
+                        );
+
+                    case 'student_type':
+                        return renderCustomQuestion(
+                            'What is your visa type?',
+                            'STUDENTS (F-1/J-1)',
+                            () => goToStep('q1'),
+                            'SCHOLARS (J-1)',
+                            () => goToStep('q7')
                         );
 
                     case 'q1':
@@ -386,9 +447,67 @@
 
                     case 'q6':
                         return renderQuestion(
-                            'Did you change visa status to H-1B or get a green card in 2025?',
+                            'Did you change visa status to H-1B or get a green card in 2025? Are you filing taxes jointly with a spouse who is on H1B or has a green card?',
                             () => goToStep('end-resident'),
                             () => goToStep('end-nonresident')
+                        );
+                    case 'q7':
+                        return renderQuestion(
+                            'Were you physically present in the United States in 2025?',
+                            () => goToStep('q8'),
+                            () => goToStep('end-no-taxes')
+                        );
+                    case 'q8':
+                        return renderQuestion(
+                            'Did you work and receive income in the US in 2025?',
+                            () => goToStep('q11', [
+                                'You should receive a W-2 or a 1099-NEC form',
+                                'You will need to file taxes this year'
+                            ]),
+                            () => goToStep('q9')
+                        );
+
+                    case 'q9':
+                        return renderQuestion(
+                            'In 2025, did you receive a scholarship that covered MORE than your tuition and school fees? (for example: living expenses)',
+                            () => goToStep('q11', ['You should receive a 1042-S form']),
+                            () => goToStep('q10')
+                        );
+
+                    case 'q10':
+                        return renderQuestion(
+                            'In 2025, did you have any taxable income (e.g. investment income, cash prize, gambling)?',
+                            () => goToStep('q11', ['You should receive 1099 forms']),
+                            () => goToStep('end-form-8843')
+                        );
+
+                    case 'end-form-8843':
+                        return renderResult(
+                            'Filing Requirements',
+                            [
+                                'You will only need to complete Form 8843',
+                                'You will not need Sprintax',
+                                <a href="https://drive.google.com/file/d/1bgUwQr2U0xU36oTgLxjmgNZPhBqty1CP/view" target="_blank" rel="noopener noreferrer">Click for more information</a>
+                            ]
+                        );
+                    
+                    
+                    case 'q11':
+                        return (
+                            <div className="space-y-6">
+                                {info.length > 0 && (
+                                    <div className="info-box">
+                                        {info.map((msg, idx) => (
+                                            <p key={idx} className="info-text">{msg}</p>
+                                        ))}
+                                    </div>
+                                )}
+                                {renderQuestion(
+                                    'In the last 6 calender years (Jan-Dec), were you in the United States during more than 2 years in F/J-1 status?',
+                                    () => goToStep('end-resident'),
+                                    () => goToStep('q6')
+                                )}
+                            </div>
                         );
 
                     case 'end-resident':
@@ -431,7 +550,7 @@
                             {renderContent()}
                         </div>
                         <div className="footer">
-                            <p>© 2025 Student Tax Flowchart</p>
+                            <p>© 2025 Student Tax Flowchart. Developed by Neha Marlady for University Use.</p>
                         </div>
                     </div>
                 </div>
