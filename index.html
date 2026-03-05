@@ -1,564 +1,145 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Tax Flowchart</title>
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-                sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        .app-container {
-            min-height: 100vh;
-            background: linear-gradient(to bottom right, #eff6ff, #e0e7ff);
-            padding: 1rem 1rem 1rem 1rem;
-        }
-
-        .content-wrapper {
-            max-width: 48rem;
-            margin: 0 auto;
-        }
-
-        .card {
-            background: white;
-            border-radius: 0.75rem;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            padding: 2rem;
-        }
-
-        .back-button {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-            padding: 0.5rem 1rem;
-            background-color: #e5e7eb;
-            color: #374151;
-            font-weight: 500;
-            border: none;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .back-button:hover {
-            background-color: #d1d5db;
-        }
-
-        .start-container {
-            text-align: center;
-        }
-
-        .start-container h1 {
-            font-size: 2.25rem;
-            font-weight: bold;
-            color: #4f46e5;
-            margin-bottom: 2rem;
-        }
-
-        .start-container .icon {
-            font-size: 3.75rem;
-            margin-bottom: 2rem;
-        }
-
-        .start-button {
-            padding: 1rem 2rem;
-            background-color: #4f46e5;
-            color: white;
-            font-size: 1.25rem;
-            font-weight: 600;
-            border: none;
-            border-radius: 0.5rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .start-button:hover {
-            background-color: #4338ca;
-        }
-
-        .question-container {
-            margin-bottom: 1.5rem;
-        }
-
-        .question-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #1f2937;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-        }
-
-        .yes-button {
-            min-width: 8rem;
-            padding: 1rem 2rem;
-            background-color: #16a34a;
-            color: white;
-            font-size: 1.125rem;
-            font-weight: 600;
-            border: none;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-
-        .yes-button:hover {
-            background-color: #15803d;
-        }
-
-        .no-button {
-            min-width: 8rem;
-            padding: 1rem 2rem;
-            background-color: #dc2626;
-            color: white;
-            font-size: 1.125rem;
-            font-weight: 600;
-            border: none;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .no-button:hover {
-            background-color: #b91c1c;
-        }
-
-
-        .custom-button-1 {
-            min-width: 8rem;
-            padding: 1rem 2rem;
-            background-color: #16a34a;
-            color: white;
-            font-size: 1.125rem;
-            font-weight: 600;
-            border: none;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        
-
-        .custom-button-1:hover {
-            background-color: #15803d;
-        }
-
-        .custom-button-2 {
-            min-width: 8rem;
-            padding: 1rem 2rem;
-            background-color: #dc2626;
-            color: white;
-            font-size: 1.125rem;
-            font-weight: 600;
-            border: none;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .custom-button-2:hover {
-            background-color: #b91c1c;
-        }
-
-        .info-box {
-            padding: 1rem;
-            background-color: #fefce8;
-            border-left: 4px solid #facc15;
-            margin-bottom: 1.5rem;
-        }
-
-        .info-text {
-            color: #374151;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-        }
-
-        .info-text:last-child {
-            margin-bottom: 0;
-        }
-
-        .result-container {
-            margin-bottom: 1.5rem;
-        }
-
-        .result-box {
-            padding: 1.5rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .result-box.positive {
-            background-color: #f0fdf4;
-            border: 2px solid #86efac;
-        }
-
-        .result-box.normal {
-            background-color: #eff6ff;
-            border: 2px solid #93c5fd;
-        }
-
-        .result-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #1f2937;
-            margin-bottom: 1rem;
-        }
-
-        .result-message {
-            font-size: 1.125rem;
-            color: #374151;
-            margin-bottom: 0.5rem;
-        }
-
-        .result-message a {
-            color: #2563eb;
-            text-decoration: underline;
-            font-weight: 600;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-
-        .result-message a:hover {
-            color: #1d4ed8;
-        }
-
-        .restart-button {
-            width: 100%;
-            padding: 0.75rem 1.5rem;
-            background-color: #4f46e5;
-            color: white;
-            font-weight: 600;
-            border: none;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .restart-button:hover {
-            background-color: #4338ca;
-        }
-
-        .footer {
-            margin-top: 1.5rem;
-            text-align: center;
-            font-size: 0.875rem;
-            color: #6b7280;
-        }
-
-        .chevron-icon {
-            width: 20px;
-            height: 20px;
-        }
-
-        .space-y-6 > * + * {
-            margin-top: 1.5rem;
-        }
-    </style>
-</head>
-<body>
-    <div id="root"></div>
-
-    <script type="text/babel">
-        const { useState } = React;
-
-        // ChevronLeft icon component
-        const ChevronLeft = ({ size = 24 }) => (
-            <svg className="chevron-icon" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-        );
-
-        const StudentTaxFlowchart = () => {
-            const [currentStep, setCurrentStep] = useState('start');
-            const [history, setHistory] = useState([]);
-            const [info, setInfo] = useState([]);
-
-            const goToStep = (step, additionalInfo = []) => {
-                setHistory([...history, currentStep]);
-                setCurrentStep(step);
-                setInfo(additionalInfo);
-            };
-
-            const goBack = () => {
-                if (history.length > 0) {
-                    const previousStep = history[history.length - 1];
-                    setHistory(history.slice(0, -1));
-                    setCurrentStep(previousStep);
-                    setInfo([]);
-                }
-            };
-
-            const reset = () => {
-                setCurrentStep('start');
-                setHistory([]);
-                setInfo([]);
-            };
-
-            const renderQuestion = (question, yesAction, noAction) => (
-                <div className="space-y-6">
-                    <h2 className="question-title">{question}</h2>
-                    <div className="button-group">
-                        <button onClick={yesAction} className="yes-button">YES</button>
-                        <button onClick={noAction} className="no-button">NO</button>
-                    </div>
-                </div>
-            );
-
-            const renderCustomQuestion = (question, option1Text, option1Action, option2Text, option2Action) => (
-                <div className="space-y-6">
-                    <h2 className="question-title">{question}</h2>
-                    <div className="button-group">
-                        <button onClick={option1Action} className="custom-button-1">
-                            {option1Text}
-                        </button>
-                        <button onClick={option2Action} className="custom-button-2">
-                            {option2Text}
-                        </button>
-                    </div>
-                </div>
-            );
-
-            const renderResult = (title, messages, isPositive = false) => (
-                <div className="result-container">
-                    <div className={`result-box ${isPositive ? 'positive' : 'normal'}`}>
-                        <h2 className="result-title">{title}</h2>
-                        {messages.map((msg, idx) => (
-                            <div key={idx} className="result-message">{msg}</div>
-                        ))}
-                    </div>
-                    <button onClick={reset} className="restart-button">Start Over</button>
-                </div>
-            );
-
-            const renderContent = () => {
-                switch (currentStep) {
-                    case 'start':
-                        return (
-                            <div className="start-container">
-                                <h1>STUDENT TAX FLOWCHART</h1>
-                                <div className="icon">📋</div>
-                                <button onClick={() => goToStep('student_type')} className="start-button">
-                                    START HERE
-                                </button>
-                            </div>
-                        );
-
-                    case 'student_type':
-                        return renderCustomQuestion(
-                            'What is your visa type?',
-                            'STUDENTS (F-1/J-1)',
-                            () => goToStep('q1'),
-                            'SCHOLARS (J-1)',
-                            () => goToStep('q7')
-                        );
-
-                    case 'q1':
-                        return renderQuestion(
-                            'Were you physically present in the United States in 2025?',
-                            () => goToStep('q2'),
-                            () => goToStep('end-no-taxes')
-                        );
-
-                    case 'end-no-taxes':
-                        return renderResult(
-                            '🎉 Hooray!',
-                            ['You do not need to complete any tax forms this year!'],
-                            true
-                        );
-
-                    case 'q2':
-                        return renderQuestion(
-                            'Did you work and receive income in the US in 2025?',
-                            () => goToStep('q5', [
-                                'You should receive a W-2 or a 1099-NEC form',
-                                'You will need to file taxes this year'
-                            ]),
-                            () => goToStep('q3')
-                        );
-
-                    case 'q3':
-                        return renderQuestion(
-                            'In 2025, did you receive a scholarship that covered MORE than your tuition and school fees? (for example: living expenses)',
-                            () => goToStep('q5', ['You should receive a 1042-S form']),
-                            () => goToStep('q4')
-                        );
-
-                    case 'q4':
-                        return renderQuestion(
-                            'In 2025, did you have any taxable income (e.g. investment income, cash prize, gambling)?',
-                            () => goToStep('q5', ['You should receive 1099 forms']),
-                            () => goToStep('end-form-8843')
-                        );
-
-                    case 'end-form-8843':
-                        return renderResult(
-                            'Filing Requirements',
-                            [
-                                'You will only need to complete Form 8843',
-                                'You will not need Sprintax',
-                                <a href="https://drive.google.com/file/d/1bgUwQr2U0xU36oTgLxjmgNZPhBqty1CP/view" target="_blank" rel="noopener noreferrer">Click for more information</a>
-                            ]
-                        );
-
-                    case 'q5':
-                        return (
-                            <div className="space-y-6">
-                                {info.length > 0 && (
-                                    <div className="info-box">
-                                        {info.map((msg, idx) => (
-                                            <p key={idx} className="info-text">{msg}</p>
-                                        ))}
-                                    </div>
-                                )}
-                                {renderQuestion(
-                                    'Have you been in the United States for more than 5 calendar years in F-1/J-1 student status?',
-                                    () => goToStep('end-resident'),
-                                    () => goToStep('q6')
-                                )}
-                            </div>
-                        );
-
-                    case 'q6':
-                        return renderQuestion(
-                            'Did you change visa status to H-1B or get a green card in 2025? Are you filing taxes jointly with a spouse who is on H1B or has a green card?',
-                            () => goToStep('end-resident'),
-                            () => goToStep('end-nonresident')
-                        );
-                    case 'q7':
-                        return renderQuestion(
-                            'Were you physically present in the United States in 2025?',
-                            () => goToStep('q8'),
-                            () => goToStep('end-no-taxes')
-                        );
-                    case 'q8':
-                        return renderQuestion(
-                            'Did you work and receive income in the US in 2025?',
-                            () => goToStep('q11', [
-                                'You should receive a W-2 or a 1099-NEC form',
-                                'You will need to file taxes this year'
-                            ]),
-                            () => goToStep('q9')
-                        );
-
-                    case 'q9':
-                        return renderQuestion(
-                            'In 2025, did you receive a scholarship that covered MORE than your tuition and school fees? (for example: living expenses)',
-                            () => goToStep('q11', ['You should receive a 1042-S form']),
-                            () => goToStep('q10')
-                        );
-
-                    case 'q10':
-                        return renderQuestion(
-                            'In 2025, did you have any taxable income (e.g. investment income, cash prize, gambling)?',
-                            () => goToStep('q11', ['You should receive 1099 forms']),
-                            () => goToStep('end-form-8843')
-                        );
-
-                    case 'end-form-8843':
-                        return renderResult(
-                            'Filing Requirements',
-                            [
-                                'You will only need to complete Form 8843',
-                                'You will not need Sprintax',
-                                <a href="https://drive.google.com/file/d/1bgUwQr2U0xU36oTgLxjmgNZPhBqty1CP/view" target="_blank" rel="noopener noreferrer">Click for more information</a>
-                            ]
-                        );
-                    
-                    
-                    case 'q11':
-                        return (
-                            <div className="space-y-6">
-                                {info.length > 0 && (
-                                    <div className="info-box">
-                                        {info.map((msg, idx) => (
-                                            <p key={idx} className="info-text">{msg}</p>
-                                        ))}
-                                    </div>
-                                )}
-                                {renderQuestion(
-                                    'In the last 6 calender years (Jan-Dec), were you in the United States during more than 2 years in F/J-1 status?',
-                                    () => goToStep('end-resident'),
-                                    () => goToStep('q6')
-                                )}
-                            </div>
-                        );
-
-                    case 'end-resident':
-                        return renderResult(
-                            'Tax Filing Status: RESIDENT',
-                            [
-                                'You are likely categorized as a RESIDENT for tax purposes',
-                                'You will complete IRS Tax Form 1040',
-                                'Do NOT use Sprintax to file your taxes',
-                                <a href="https://drive.google.com/file/d/1cGyG5Ry8ktx_0ECKoBH1kwx3kvMxnMzM/view" target="_blank" rel="noopener noreferrer">Click for more information</a>
-                            ]
-                        );
-
-                    case 'end-nonresident':
-                        return renderResult(
-                            'Tax Filing Status: NON-RESIDENT',
-                            [
-                                'You are likely categorized as a NON-RESIDENT for tax purposes',
-                                'You will complete IRS Tax Form 1040-NR',
-                                'Use Sprintax to file your taxes',
-                                <a href="https://drive.google.com/file/d/1w3q_bHWkBp_bmWwQ85dJ4QgFtQuBBvIy/view" target="_blank" rel="noopener noreferrer">Click for more information</a>
-                            ]
-                        );
-
-                    default:
-                        return null;
-                }
-            };
-
-            return (
-                <div className="app-container">
-                    <div className="content-wrapper">
-                        <div className="card">
-                            {history.length > 0 && currentStep !== 'start' && (
-                                <button onClick={goBack} className="back-button">
-                                    <ChevronLeft size={20} />
-                                    Back
-                                </button>
-                            )}
-                            {renderContent()}
-                        </div>
-                        <div className="footer">
-                            <p>© 2025 Student Tax Flowchart. Developed by Neha Marlady for University Use.</p>
-                        </div>
-                    </div>
-                </div>
-            );
-        };
-
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<StudentTaxFlowchart />);
+<div class="raw-html-embed">
+    <!-- Student/Scholar Tax Flowchart - Paste this into Drupal Body field with Full HTML format --> 
+    <!-- External Dependencies --> 
+    <script crossorigin="" src="https://unpkg.com/react@18/umd/react.production.min.js"></script> 
+    <script crossorigin="" src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script> 
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script> 
+    <style> 
+        .tax-flowchart-wrapper * { margin: 0; padding: 0; box-sizing: border-box; } 
+        .tax-flowchart-wrapper { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; 
+            -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; 
+        } 
+        .tax-flowchart-app-container { min-height: auto; background: linear-gradient(to bottom right, #eff6ff, #e0e7ff); padding: 3rem 2rem; border-radius: 1rem; } 
+        .tax-flowchart-content-wrapper { max-width: 48rem; margin: 0 auto; } 
+        .tax-flowchart-card { background: white; border-radius: 0.75rem; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); padding: 2rem; } 
+        .tax-flowchart-back-button { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem; padding: 0.5rem 1rem; background-color: #e5e7eb; color: #374151; font-weight: 500; border: none; border-radius: 0.5rem; cursor: pointer; transition: background-color 0.2s; } 
+        .tax-flowchart-back-button:hover { background-color: #d1d5db; } 
+        .tax-flowchart-start-container { text-align: center; } 
+        .tax-flowchart-start-container h1 { font-size: 2.25rem; font-weight: bold; color: #4f46e5; margin-bottom: 2rem; } 
+        .tax-flowchart-start-container .tax-flowchart-icon { font-size: 3.75rem; margin-bottom: 2rem; } 
+        .tax-flowchart-start-button { padding: 1rem 2rem; background-color: #4f46e5; color: white; font-size: 1.25rem; font-weight: 600; border: none; border-radius: 0.5rem; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); cursor: pointer; transition: background-color 0.2s; } 
+        .tax-flowchart-start-button:hover { background-color: #4338ca; } 
+        .tax-flowchart-question-title { font-size: 1.5rem; font-weight: 600; color: #1f2937; text-align: center; margin-bottom: 2rem; } 
+        .tax-flowchart-button-group { display: flex; gap: 1rem; justify-content: center; } 
+        .tax-flowchart-yes-button { min-width: 8rem; padding: 1rem 2rem; background-color: #16a34a; color: white; font-size: 1.125rem; font-weight: 600; border: none; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); cursor: pointer; transition: background-color 0.2s; } 
+        .tax-flowchart-yes-button:hover { background-color: #15803d; } 
+        .tax-flowchart-no-button { min-width: 8rem; padding: 1rem 2rem; background-color: #dc2626; color: white; font-size: 1.125rem; font-weight: 600; border: none; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); cursor: pointer; transition: background-color 0.2s; } 
+        .tax-flowchart-no-button:hover { background-color: #b91c1c; } 
+        .tax-flowchart-custom-button-1 { min-width: 8rem; padding: 1rem 2rem; background-color: #16a34a; color: white; font-size: 1.125rem; font-weight: 600; border: none; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); cursor: pointer; transition: background-color 0.2s; } 
+        .tax-flowchart-custom-button-1:hover { background-color: #15803d; } 
+        .tax-flowchart-custom-button-2 { min-width: 8rem; padding: 1rem 2rem; background-color: #dc2626; color: white; font-size: 1.125rem; font-weight: 600; border: none; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); cursor: pointer; transition: background-color 0.2s; } 
+        .tax-flowchart-custom-button-2:hover { background-color: #b91c1c; } 
+        .tax-flowchart-info-box { padding: 1rem; background-color: #fefce8; border-left: 4px solid #facc15; margin-bottom: 1.5rem; } 
+        .tax-flowchart-info-text { color: #374151; font-weight: 500; margin-bottom: 0.5rem; } 
+        .tax-flowchart-info-text:last-child { margin-bottom: 0; } 
+        .tax-flowchart-result-container { margin-bottom: 1.5rem; } 
+        .tax-flowchart-result-box { padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1.5rem; } 
+        .tax-flowchart-result-box.tax-flowchart-positive { background-color: #f0fdf4; border: 2px solid #86efac; } 
+        .tax-flowchart-result-box.tax-flowchart-normal { background-color: #eff6ff; border: 2px solid #93c5fd; } 
+        .tax-flowchart-result-title { font-size: 1.5rem; font-weight: bold; color: #1f2937; margin-bottom: 1rem; } 
+        .tax-flowchart-result-message { font-size: 1.125rem; color: #374151; margin-bottom: 0.5rem; } 
+        .tax-flowchart-result-message a { color: #2563eb; text-decoration: underline; font-weight: 600; cursor: pointer; transition: color 0.2s; } 
+        .tax-flowchart-result-message a:hover { color: #1d4ed8; } 
+        .tax-flowchart-restart-button { width: 100%; padding: 0.75rem 1.5rem; background-color: #4f46e5; color: white; font-weight: 600; border: none; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); cursor: pointer; transition: background-color 0.2s; } 
+        .tax-flowchart-restart-button:hover { background-color: #4338ca; } 
+        .tax-flowchart-footer { margin-top: 1.5rem; text-align: center; font-size: 0.875rem; color: #6b7280; } 
+        .tax-flowchart-chevron-icon { width: 20px; height: 20px; } 
+        .tax-flowchart-space-y-6 > * + * { margin-top: 1.5rem; } 
+        @media (max-width: 640px) { 
+            .tax-flowchart-start-container h1 { font-size: 1.75rem; } 
+            .tax-flowchart-question-title { font-size: 1.25rem; } 
+            .tax-flowchart-button-group { flex-direction: column; } 
+            .tax-flowchart-yes-button, .tax-flowchart-no-button, .tax-flowchart-custom-button-1, .tax-flowchart-custom-button-2 { width: 100%; } 
+        } 
+    </style> 
+    <div id="student-tax-flowchart-root"></div> 
+    <script type="text/babel"> 
+        (function() { 
+            const { useState } = React; 
+            const ChevronLeft = ({ size = 24 }) => ( 
+                React.createElement('svg', { className: 'tax-flowchart-chevron-icon', width: size, height: size, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '2', strokeLinecap: 'round', strokeLinejoin: 'round' }, 
+                    React.createElement('polyline', { points: '15 18 9 12 15 6' }) 
+                ) 
+            ); 
+            const StudentTaxFlowchart = () => { 
+                const [currentStep, setCurrentStep] = useState('start'); 
+                const [history, setHistory] = useState([]); 
+                const [info, setInfo] = useState([]); 
+                const goToStep = (step, additionalInfo = []) => { setHistory([...history, currentStep]); setCurrentStep(step); setInfo(additionalInfo); }; 
+                const goBack = () => { if (history.length > 0) { const prev = history[history.length - 1]; setHistory(history.slice(0, -1)); setCurrentStep(prev); setInfo([]); } }; 
+                const reset = () => { setCurrentStep('start'); setHistory([]); setInfo([]); }; 
+                const renderQuestion = (question, yesAction, noAction) => ( 
+                    React.createElement('div', { className: 'tax-flowchart-space-y-6' }, 
+                        React.createElement('h2', { className: 'tax-flowchart-question-title' }, question), 
+                        React.createElement('div', { className: 'tax-flowchart-button-group' }, 
+                            React.createElement('button', { onClick: yesAction, className: 'tax-flowchart-yes-button' }, 'YES'), 
+                            React.createElement('button', { onClick: noAction, className: 'tax-flowchart-no-button' }, 'NO') 
+                        ) 
+                    ) 
+                ); 
+                const renderCustomQuestion = (question, opt1Text, opt1Action, opt2Text, opt2Action) => ( 
+                    React.createElement('div', { className: 'tax-flowchart-space-y-6' }, 
+                        React.createElement('h2', { className: 'tax-flowchart-question-title' }, question), 
+                        React.createElement('div', { className: 'tax-flowchart-button-group' }, 
+                            React.createElement('button', { onClick: opt1Action, className: 'tax-flowchart-custom-button-1' }, opt1Text), 
+                            React.createElement('button', { onClick: opt2Action, className: 'tax-flowchart-custom-button-2' }, opt2Text) 
+                        ) 
+                    ) 
+                ); 
+                const renderResult = (title, messages, isPositive = false) => ( 
+                    React.createElement('div', { className: 'tax-flowchart-result-container' }, 
+                        React.createElement('div', { className: 'tax-flowchart-result-box ' + (isPositive ? 'tax-flowchart-positive' : 'tax-flowchart-normal') }, 
+                            React.createElement('h2', { className: 'tax-flowchart-result-title' }, title), 
+                            messages.map((msg, idx) => React.createElement('div', { key: idx, className: 'tax-flowchart-result-message' }, msg)) 
+                        ), 
+                        React.createElement('button', { onClick: reset, className: 'tax-flowchart-restart-button' }, 'Start Over') 
+                    ) 
+                ); 
+                const renderContent = () => { 
+                    switch (currentStep) { 
+                        case 'start': return React.createElement('div', { className: 'tax-flowchart-start-container' }, React.createElement('h1', null, 'STUDENT/SCHOLAR TAX FLOWCHART'), React.createElement('div', { className: 'tax-flowchart-icon' }, '📋'), React.createElement('button', { onClick: () => goToStep('student_type'), className: 'tax-flowchart-start-button' }, 'START HERE')); 
+                        case 'student_type': return renderCustomQuestion('What is your visa type?', 'STUDENTS (F-1/J-1)', () => goToStep('q1'), 'SCHOLARS (J-1)', () => goToStep('q7')); 
+                        case 'q1': return renderQuestion('Were you physically present in the United States in 2025?', () => goToStep('q2'), () => goToStep('end-no-taxes')); 
+                        case 'end-no-taxes': return renderResult('🎉 Hooray!', ['You do not need to complete any tax forms this year!'], true); 
+                        case 'q2': return renderQuestion('Did you work and receive income in the US in 2025?', () => goToStep('q5', ['You should receive a W-2 or a 1099-NEC form', 'You will need to file taxes this year']), () => goToStep('q3')); 
+                        case 'q3': return renderQuestion('In 2025, did you receive a scholarship that covered MORE than your tuition and school fees? (for example: living expenses)', () => goToStep('q5', ['You should receive a 1042-S form']), () => goToStep('q4')); 
+                        case 'q4': return renderQuestion('In 2025, did you have any taxable income (e.g. investment income, cash prize, gambling)?', () => goToStep('q5', ['You should receive 1099 forms']), () => goToStep('end-form-8843')); 
+                        case 'end-form-8843': return renderResult('Filing Requirements', ['You will only need to complete Form 8843', 'You will not need Sprintax', React.createElement('a', { href: 'https://drive.google.com/file/d/1bgUwQr2U0xU36oTgLxjmgNZPhBqty1CP/view', target: '_blank', rel: 'noopener noreferrer' }, 'Click for more information')]); 
+                        case 'q5': return React.createElement('div', { className: 'tax-flowchart-space-y-6' }, info.length > 0 && React.createElement('div', { className: 'tax-flowchart-info-box' }, info.map((msg, idx) => React.createElement('p', { key: idx, className: 'tax-flowchart-info-text' }, msg))), renderQuestion('Have you been in the United States for more than 5 calendar years in F-1/J-1 student status?', () => goToStep('end-resident'), () => goToStep('q6'))); 
+                        case 'q6': return renderQuestion('Did you change visa status to H-1B or get a green card in 2025? Are you filing taxes jointly with a spouse who is on H1B or has a green card?', () => goToStep('end-resident'), () => goToStep('end-nonresident')); 
+                        case 'q7': return renderQuestion('Were you physically present in the United States in 2025?', () => goToStep('q8'), () => goToStep('end-no-taxes')); 
+                        case 'q8': return renderQuestion('Did you work and receive income in the US in 2025?', () => goToStep('q11', ['You should receive a W-2 or a 1099-NEC form', 'You will need to file taxes this year']), () => goToStep('q9')); 
+                        case 'q9': return renderQuestion('In 2025, did you receive a scholarship that covered MORE than your tuition and school fees? (for example: living expenses)', () => goToStep('q11', ['You should receive a 1042-S form']), () => goToStep('q10')); 
+                        case 'q10': return renderQuestion('In 2025, did you have any taxable income (e.g. investment income, cash prize, gambling)?', () => goToStep('q11', ['You should receive 1099 forms']), () => goToStep('end-form-8843-scholar')); 
+                        case 'end-form-8843-scholar': return renderResult('Filing Requirements', ['You will only need to complete Form 8843', 'You will not need Sprintax', React.createElement('a', { href: 'https://drive.google.com/file/d/1WdWriMs7OZqoiBQxmuYVRpyJUwYiTdbc/view', target: '_blank', rel: 'noopener noreferrer' }, 'Click for more information')]); 
+                        case 'q11': return React.createElement('div', { className: 'tax-flowchart-space-y-6' }, info.length > 0 && React.createElement('div', { className: 'tax-flowchart-info-box' }, info.map((msg, idx) => React.createElement('p', { key: idx, className: 'tax-flowchart-info-text' }, msg))), renderQuestion('Consider the past 6 years (2019-2024), were you present in the United States in F/J status in more than 2 of these years?', () => goToStep('end-resident'), () => goToStep('q6'))); 
+                        case 'end-resident': return renderResult('Tax Filing Status: RESIDENT', ['You are likely categorized as a RESIDENT for tax purposes', 'You will complete IRS Tax Form 1040', 'Do NOT use Sprintax to file your taxes', React.createElement('a', { href: 'https://drive.google.com/file/d/1cGyG5Ry8ktx_0ECKoBH1kwx3kvMxnMzM/view', target: '_blank', rel: 'noopener noreferrer' }, 'Click for more information')]); 
+                        case 'end-nonresident': return renderResult('Tax Filing Status: NON-RESIDENT', ['You are likely categorized as a NON-RESIDENT for tax purposes', 'You will complete IRS Tax Form 1040-NR', 'Use Sprintax to file your taxes', React.createElement('a', { href: 'https://drive.google.com/file/d/1w3q_bHWkBp_bmWwQ85dJ4QgFtQuBBvIy/view', target: '_blank', rel: 'noopener noreferrer' }, 'Click for more information and access the SPRINTAX Promo Code for 2025')]); 
+                        default: return null; 
+                    } 
+                }; 
+                return React.createElement('div', { className: 'tax-flowchart-wrapper' }, 
+                    React.createElement('div', { className: 'tax-flowchart-app-container' }, 
+                        React.createElement('div', { className: 'tax-flowchart-content-wrapper' }, 
+                            React.createElement('div', { className: 'tax-flowchart-card' }, 
+                                history.length > 0 && currentStep !== 'start' && React.createElement('button', { onClick: goBack, className: 'tax-flowchart-back-button' }, React.createElement(ChevronLeft, { size: 20 }), 'Back'), 
+                                renderContent() 
+                            ), 
+                            React.createElement('div', { className: 'tax-flowchart-footer' }, 
+                                React.createElement('p', null, '© 2025 Student/Scholar Tax Flowchart. Developed by Neha Marlady for University Use.') 
+                            ) 
+                        ) 
+                    ) 
+                ); 
+            }; 
+            if (typeof React !== 'undefined' && typeof ReactDOM !== 'undefined') { 
+                const rootElement = document.getElementById('student-tax-flowchart-root'); 
+                if (rootElement && !rootElement.hasChildNodes()) { 
+                    const root = ReactDOM.createRoot(rootElement); 
+                    root.render(React.createElement(StudentTaxFlowchart)); 
+                } 
+            } 
+        })(); 
     </script>
-</body>
-</html>
+</div>
